@@ -302,13 +302,15 @@ helm install prometheus-stack  prometheus-community/kube-prometheus-stack
 ```
 ![img_12.png](img_readme/img_12.png)
 3) Создаю сервис LoadBalancer для графаны
-![img_14.png](img_readme/img_14.png)
-Проверяю Яндекс 
+![img_14.png](img_readme/img_14.png) \
+Проверяю Яндекс \
 ![img_15.png](img_readme/img_15.png)
 **Сервис доступен по пути:**
 **http://51.250.40.79:3000/login** \
    **_login: admin\
    password: prom-operator_**
+
+
 4) Проверяю работоспособность дашбордов
 ![img_18.png](img_readme/img_18.png)
 ![img_19.png](img_readme/img_19.png)
@@ -317,17 +319,25 @@ helm install prometheus-stack  prometheus-community/kube-prometheus-stack
 ![img_16.png](img_readme/img_16.png)
 **Сервис доступен по пути:**
 **http://51.250.42.206/**
+
+
 5) Копирую файл для деплоя в репо с приложением
+
+
 6) Добавляю необходимые секреты
 ![img_20.png](img_readme/img_20.png)
 7) Описываю [workflow](https://github.com/loveyourvoice/diplom_test_app/blob/master/.github/workflows/docker-build-and-deploy.yml)
+
+
 8) Меняю в коде надпись на сайте и пушу
 ![img_21.png](img_readme/img_21.png)
 9) Делаю пуш, проверяю сборку образа и пуш в докер хаб
 ![img_22.png](img_readme/img_22.png)
 При этом редеплой пропущен, как и требует задание
-10) Создаю новый тег проверяю, чтобы собирался образ, пушился и происходил редеплой.
-![img_23.png](img_readme/img_23.png)
+
+
+10) Создаю новый тег проверяю, чтобы собирался образ, пушился и происходил редеплой.\
+![img_23.png](img_readme/img_23.png)\
 ![img_24.png](img_readme/img_24.png)
 11) Проверяю сайт, надпись изменилась
 ![img_25.png](img_readme/img_25.png)
