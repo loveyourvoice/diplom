@@ -290,7 +290,7 @@ EXPOSE 80
 https://hub.docker.com/repository/docker/loveyourvoice/diplom-test-app
 ![img_9.png](img_readme/img_9.png)
 ![img_10.png](img_readme/img_10.png)
-
+ 
 ### <summary>Подготовка cистемы мониторинга и деплой приложения</summary>
 1) Установил helm на свою машину
 ![img_11.png](img_readme/img_11.png)
