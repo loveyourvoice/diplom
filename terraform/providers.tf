@@ -11,8 +11,8 @@ terraform {
     bucket     = "loveyourvoice-state-bucket"
     region     = "ru-central1"
     key        = "terraform.tfstate"
-    access_key = "YCAJE_2hzxp-HgB1DhSRChowH"
-    secret_key = "YCNkBlDs8rG8-rpQtj2KIfzcCBMyLnLez_QsY7jj"
+    profile    = "default"
+
     skip_region_validation      = true
     skip_credentials_validation = true
     skip_requesting_account_id  = true
@@ -21,7 +21,7 @@ terraform {
 }
 
 provider "yandex" {
-  token     = var.yandex_token
+  token     = var.token
   cloud_id  = var.cloud_id
   folder_id = var.folder_id
   zone      = var.default_zone

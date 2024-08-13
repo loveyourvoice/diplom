@@ -1,0 +1,43 @@
+name: Deploy Infrastructure with TF
+
+on:
+  push:
+
+jobs:
+  terraform-deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      YC_ACCESS_TOKEN: ${{ secrets.YC_TOKEN }}
+      YC_PROJECT_ID: ${{ secrets.YC_CLOUD_ID }}
+      YC_DIRECTORY_ID: ${{ secrets.YC_FOLDER_ID }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Inject SSH Public Key into Configuration
+        run: echo "      - ${{ secrets.SSH_PUB_KEY }}" >> ./terraform/config.yaml
+
+      - name: Terraform Setup
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: "1.9.3"
+
+      - name: Initialize Terraform
+        working-directory: ./terraform
+        id: terraform-init
+        run: |
+          terraform init \
+            -backend-config "access_key=${{ secrets.BACKEND_CRED_ACCESS_KEY }}" \
+            -backend-config "secret_key=${{ secrets.BACKEND_CRED_SECRET_KEY }}"
+
+      - name: Generate Terraform Plan
+        working-directory: ./terraform
+        id: terraform-plan
+        run: terraform plan -no-color
+
+      - name: Apply Terraform Changes
+        working-directory: ./terraform
+        id: terraform-apply
+        run: terraform apply -auto-approve
