@@ -18,12 +18,10 @@ variable "yandex_token" {
 
 variable "cloud_id" {
   type        = string
-  default     = "b1g8ge6270gbajmfusni"
 }
 
 variable "folder_id" {
   type        = string
-  default     = "b1gnp65br7d0gc6j0fdn"
 }
 
 variable "default_zone" {

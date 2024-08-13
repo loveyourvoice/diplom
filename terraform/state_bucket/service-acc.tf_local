@@ -11,15 +11,14 @@ resource "yandex_resourcemanager_folder_iam_member" "sa-editor" {
   member    = "serviceAccount:${yandex_iam_service_account.sa.id}"
 }
 
-# Создаем ключ для шифрования
+#Создаем ключ для шифрования
 resource "yandex_kms_symmetric_key" "encryption_key" {
   name              = "myencrypts"
   description       = "Key for bucket encryption"
   default_algorithm = "AES_128"
   rotation_period   = "8760h"
 }
-
-# Создаем статический ключ доступа для сервисного аккаунта
+#Создаем статический ключ доступа для сервисного аккаунта
 resource "yandex_iam_service_account_static_access_key" "tf_service_key_new" {
   service_account_id = yandex_iam_service_account.sa.id
   description        = "Статический ключ"
@@ -50,7 +49,7 @@ resource "yandex_iam_service_account_iam_policy" "sa_editor_policy" {
 }
 
 # Настраиваем провайдера через template
-resource "local_file" "providers" {
+resource "local_file" "providers" { 
   content = templatefile("./template/providers.tftpl", {
     bucket_name = "loveyourvoice-state-bucket"
     cloud_id    = var.cloud_id
@@ -59,11 +58,13 @@ resource "local_file" "providers" {
   filename = "../providers.tf"
 }
 
-# Выводим ключ и секрет в output
-output "access_key" {
-  value = yandex_iam_service_account_static_access_key.tf_service_key_new.access_key
-}
+# Кладем секрет и ключ в ~/.aws/credentials
+resource "local_file" "aws_credentials" {
+  content = <<EOT
+[default]
+aws_access_key_id = ${yandex_iam_service_account_static_access_key.tf_service_key_new.access_key}
+aws_secret_access_key = ${yandex_iam_service_account_static_access_key.tf_service_key_new.secret_key}
+EOT
 
-output "secret_key" {
-  value = yandex_iam_service_account_static_access_key.tf_service_key_new.secret_key
+  filename = "${pathexpand("~/.aws/credentials")}"
 }
