@@ -6,8 +6,6 @@ locals {
 variable "yandex_token" {}
 variable "cloud_id" {}
 variable "folder_id" {}
-variable "access_key" {}
-variable "secret_key" {}
 
 variable "default_zone" {
   type        = string

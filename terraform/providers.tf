@@ -23,6 +23,4 @@ provider "yandex" {
   cloud_id  = var.cloud_id
   folder_id = var.folder_id
   zone      = var.default_zone
-  access_key = var.access_key
-  secret_key = var.secret_key
 }
