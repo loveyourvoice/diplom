@@ -25,6 +25,37 @@ jobs:
         with:
           terraform_version: "1.9.3"
 
+      - name: Terraform Init (State Bucket)
+        working-directory: ./terraform/state_bucket
+        run: terraform init
+
+      - name: Terraform Plan (State Bucket)
+        working-directory: ./terraform/state_bucket
+        id: plan_state_bucket
+        run: terraform plan -no-color -out=tfplanbucket
+        continue-on-error: true
+
+      - name: Terraform Apply (State Bucket)
+        if: steps.plan_state_bucket.outcome == 'success' && steps.plan_state_bucket.conclusion == 'success' && !contains(steps.plan_state_bucket.outputs.stdout, 'No changes')
+        working-directory: ./terraform/state_bucket
+        run: terraform apply -auto-approve tfplanbucket
+
+      - name: Save Terraform Outputs
+        if: steps.plan_state_bucket.outcome == 'success' && !contains(steps.plan_state_bucket.outputs.stdout, 'No changes')
+        working-directory: ./terraform/state_bucket
+        id: save_outputs
+        run: |
+          echo "ACCESS_KEY=$(terraform output -raw access_key)" >> $GITHUB_ENV
+          echo "SECRET_KEY=$(terraform output -raw secret_key)" >> $GITHUB_ENV
+
+      - name: Update GitHub Variables
+        if: steps.plan_state_bucket.outcome == 'success' && !contains(steps.plan_state_bucket.outputs.stdout, 'No changes')
+        run: |
+          gh secret set AWS_ACCESS_KEY_ID --body "${{ env.ACCESS_KEY }}"
+          gh secret set AWS_SECRET_ACCESS_KEY --body "${{ env.SECRET_KEY }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.MYGIT_TOKEN }}
+
       - name: Terraform Init (Main)
         working-directory: ./terraform
         run: terraform init
