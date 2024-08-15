@@ -13,8 +13,8 @@ jobs:
       var.yandex_token: ${{ secrets.YANDEX_TOKEN }}
       var.cloud_id: ${{ secrets.CLOUD_ID }}
       var.folder_id: ${{ secrets.FOLDER_ID }}
-      var.access_key: ${{ secrets.ACCESS_KEY }}
-      var.secret_key: ${{ secrets.SECRET_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.SECRET_KEY }}
 
     steps:
       - name: Checkout code
