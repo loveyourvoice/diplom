@@ -30,28 +30,6 @@ jobs:
         run: terraform init
 
 
-      - name: Terraform Apply (State Bucket)
-       # if: steps.plan_state_bucket.outcome == 'success' && steps.plan_state_bucket.conclusion == 'success' && !contains(steps.plan_state_bucket.outputs.stdout, 'No changes')
-        working-directory: ./terraform/state_bucket
-        run: terraform apply -auto-approve
-
-      - name: Save Terraform Outputs
-       # if: steps.plan_state_bucket.outcome == 'success' && !contains(steps.plan_state_bucket.outputs.stdout, 'No changes')
-        working-directory: ./terraform/state_bucket
-        run: |
-          ACCESS_KEY=$(terraform output -raw access_key)
-          SECRET_KEY=$(terraform output -raw secret_key)
-          echo "ACCESS_KEY=$ACCESS_KEY" >> $GITHUB_ENV
-          echo "SECRET_KEY=$SECRET_KEY" >> $GITHUB_ENV
-
-      - name: Update GitHub Variables
-       # if: steps.plan_state_bucket.outcome == 'success' && !contains(steps.plan_state_bucket.outputs.stdout, 'No changes')
-        run: |
-          gh secret set ACCESS_KEY --body "${{ env.ACCESS_KEY }}"
-          gh secret set SECRET_KEY --body "${{ env.SECRET_KEY }}"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Terraform Plan (Main)
         working-directory: ./terraform
         id: plan_main
