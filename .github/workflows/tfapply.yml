@@ -25,10 +25,9 @@ jobs:
         with:
           terraform_version: "1.9.3"
 
-      - name: Terraform Init (State Bucket)
-        working-directory: ./terraform/state_bucket
+      - name: Terraform Init (Main)
+        working-directory: ./terraform
         run: terraform init
-
 
       - name: Terraform Plan (Main)
         working-directory: ./terraform
