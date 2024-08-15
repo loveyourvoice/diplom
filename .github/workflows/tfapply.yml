@@ -29,11 +29,11 @@ jobs:
         working-directory: ./terraform
         run: terraform init
 
-      #- name: Terraform Plan (Main)
-      #  working-directory: ./terraform
-      #  id: plan_main
-      #  run: terraform plan -no-color -out=tfplan
-      #  continue-on-error: true
+      - name: Terraform Plan (Main)
+        working-directory: ./terraform
+        id: plan_main
+        run: terraform plan -no-color -out=tfplan
+        continue-on-error: true
 
       - name: Terraform Apply (Main)
         if: steps.plan_main.outcome == 'success' && steps.plan_main.conclusion == 'success' && !contains(steps.plan_main.outputs.stdout, 'No changes')
