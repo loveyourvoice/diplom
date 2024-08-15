@@ -21,4 +21,4 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Print access_key
-        run: echo "access_key ${{ var.secret_key }}"
+        run: echo "access_key ${{ env.secret_key }}"
