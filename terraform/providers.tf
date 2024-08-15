@@ -1,9 +1,3 @@
-variable "secret_key" {
-  default = ""
-}
-variable "access_key" {
-  default = ""
-}
 terraform {
   required_providers {
     yandex = {
@@ -31,4 +25,6 @@ provider "yandex" {
   cloud_id  = var.cloud_id
   folder_id = var.folder_id
   zone      = var.default_zone
+  access_key = var.access_key
+  secret_key = var.secret_key
 }
