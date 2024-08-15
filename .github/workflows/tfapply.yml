@@ -10,11 +10,9 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      yandex_token: ${{ secrets.YANDEX_TOKEN }}
-      cloud_id: ${{ secrets.CLOUD_ID }}
-      var.cloud_id: ${{ secrets.CLOUD_ID }}
-      emv.cloud_id: ${{ secrets.CLOUD_ID }}
-      folder_id: ${{ secrets.FOLDER_ID }}
+      TF_VAR_yandex_token: ${{ secrets.YANDEX_TOKEN }}
+      TF_VAR_cloud_id: ${{ secrets.CLOUD_ID }}
+      TF_VAR_folder_id: ${{ secrets.FOLDER_ID }}
       AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.SECRET_KEY }}
 

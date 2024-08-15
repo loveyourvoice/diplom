@@ -3,9 +3,15 @@ locals {
   ssh-private-keys = file("~/.ssh/id_ed25519")
 }
 
-variable "yandex_token" {}
-variable "cloud_id" {}
-variable "folder_id" {}
+variable "yandex_token" {
+  type = string
+}
+variable "cloud_id" {
+  type = string
+}
+variable "folder_id" {
+  type = string
+}
 
 variable "default_zone" {
   type        = string
