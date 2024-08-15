@@ -30,14 +30,13 @@ jobs:
         run: terraform init
 
 
-
       - name: Terraform Apply (State Bucket)
-        if: steps.plan_state_bucket.outcome == 'success' && steps.plan_state_bucket.conclusion == 'success' && !contains(steps.plan_state_bucket.outputs.stdout, 'No changes')
+       # if: steps.plan_state_bucket.outcome == 'success' && steps.plan_state_bucket.conclusion == 'success' && !contains(steps.plan_state_bucket.outputs.stdout, 'No changes')
         working-directory: ./terraform/state_bucket
         run: terraform apply -auto-approve tfplan
 
       - name: Save Terraform Outputs
-        if: steps.plan_state_bucket.outcome == 'success' && !contains(steps.plan_state_bucket.outputs.stdout, 'No changes')
+       # if: steps.plan_state_bucket.outcome == 'success' && !contains(steps.plan_state_bucket.outputs.stdout, 'No changes')
         working-directory: ./terraform/state_bucket
         run: |
           ACCESS_KEY=$(terraform output -raw access_key)
@@ -46,7 +45,7 @@ jobs:
           echo "SECRET_KEY=$SECRET_KEY" >> $GITHUB_ENV
 
       - name: Update GitHub Variables
-        if: steps.plan_state_bucket.outcome == 'success' && !contains(steps.plan_state_bucket.outputs.stdout, 'No changes')
+       # if: steps.plan_state_bucket.outcome == 'success' && !contains(steps.plan_state_bucket.outputs.stdout, 'No changes')
         run: |
           gh secret set ACCESS_KEY --body "${{ env.ACCESS_KEY }}"
           gh secret set SECRET_KEY --body "${{ env.SECRET_KEY }}"
@@ -60,7 +59,7 @@ jobs:
         continue-on-error: true
 
       - name: Terraform Apply (Main)
-        if: steps.plan_main.outcome == 'success' && steps.plan_main.conclusion == 'success' && !contains(steps.plan_main.outputs.stdout, 'No changes')
+     #   if: steps.plan_main.outcome == 'success' && steps.plan_main.conclusion == 'success' && !contains(steps.plan_main.outputs.stdout, 'No changes')
         working-directory: ./terraform
         run: terraform apply -auto-approve tfplan
 
