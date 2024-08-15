@@ -29,11 +29,7 @@ jobs:
         working-directory: ./terraform/state_bucket
         run: terraform init
 
-      - name: Terraform Plan (State Bucket)
-        working-directory: ./terraform/state_bucket
-        id: plan_state_bucket
-        run: terraform plan -no-color -out=tfplan
-        continue-on-error: true
+
 
       - name: Terraform Apply (State Bucket)
         if: steps.plan_state_bucket.outcome == 'success' && steps.plan_state_bucket.conclusion == 'success' && !contains(steps.plan_state_bucket.outputs.stdout, 'No changes')
