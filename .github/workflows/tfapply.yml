@@ -33,7 +33,7 @@ jobs:
       - name: Terraform Apply (State Bucket)
        # if: steps.plan_state_bucket.outcome == 'success' && steps.plan_state_bucket.conclusion == 'success' && !contains(steps.plan_state_bucket.outputs.stdout, 'No changes')
         working-directory: ./terraform/state_bucket
-        run: terraform apply -auto-approve tfplan
+        run: terraform apply -auto-approve
 
       - name: Save Terraform Outputs
        # if: steps.plan_state_bucket.outcome == 'success' && !contains(steps.plan_state_bucket.outputs.stdout, 'No changes')
