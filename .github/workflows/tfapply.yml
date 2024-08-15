@@ -15,11 +15,10 @@ jobs:
       folder_id: ${{ secrets.FOLDER_ID }}
       access_key: ${{ secrets.ACCESS_KEY }}
       secret_key: ${{ secrets.SECRET_KEY }}
-      test_key: ${{ secrets.TEST_KEY }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Print access_key
-        run: echo "access_key: ${{ env.access_key }}"
+        run: echo "access_key ${{ var.secret_key }}"
