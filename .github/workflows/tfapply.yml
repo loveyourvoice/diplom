@@ -10,15 +10,32 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      yandex_token: ${{ secrets.YANDEX_TOKEN }}
-      cloud_id: ${{ secrets.CLOUD_ID }}
-      folder_id: ${{ secrets.FOLDER_ID }}
-      access_key: ${{ secrets.ACCESS_KEY }}
-      secret_key: ${{ secrets.SECRET_KEY }}
+      var.yandex_token: ${{ secrets.YANDEX_TOKEN }}
+      var.cloud_id: ${{ secrets.CLOUD_ID }}
+      var.folder_id: ${{ secrets.FOLDER_ID }}
+      var.access_key: ${{ secrets.ACCESS_KEY }}
+      var.secret_key: ${{ secrets.SECRET_KEY }}
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-      - name: Print access_key
-        run: echo "access_key ${{ env.secret_key }}"
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: "1.9.3"
+
+      - name: Terraform Init (Main)
+        working-directory: ./terraform
+        run: terraform init
+
+      #- name: Terraform Plan (Main)
+      #  working-directory: ./terraform
+      #  id: plan_main
+      #  run: terraform plan -no-color -out=tfplan
+      #  continue-on-error: true
+
+      - name: Terraform Apply (Main)
+        if: steps.plan_main.outcome == 'success' && steps.plan_main.conclusion == 'success' && !contains(steps.plan_main.outputs.stdout, 'No changes')
+        working-directory: ./terraform
+        run: terraform apply -auto-approve tfplan
